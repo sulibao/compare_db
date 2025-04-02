@@ -52,7 +52,7 @@ source_dir = 'source'
 target_dir = 'target'
 output_dir = 'compare'
 
-...
+......
 
 python compare.py
 ```
