@@ -11,9 +11,9 @@ IFS=',' read -ra DBS <<< "$MYSQL_DBS"
 
 if [ ! -d "$DIR" ]; then
     mkdir -p "$DIR"
-    echo "目录 $DIR 创建成功"
+    echo "$DIR directory created successfully"
 else
-    echo "目录 $DIR 已存在"
+    echo "The directory $DIR already exists"
 fi
 
 for MYSQL_DB in "${DBS[@]}"; do
