@@ -1,12 +1,12 @@
 #!/bin/bash
 
-MYSQL_HOST="xx.xx.xx.xx"
+MYSQL_HOST="192.168.2.193"
 MYSQL_PORT="20307"
 MYSQL_USER="root"
-MYSQL_PASS="xxx"
+MYSQL_PASS="SLBmysql2025"
 DIR="source"
 
-MYSQL_DBS="test-su"
+MYSQL_DBS="sulibao"
 IFS=',' read -ra DBS <<< "$MYSQL_DBS"
 
 if [ ! -d "$DIR" ]; then

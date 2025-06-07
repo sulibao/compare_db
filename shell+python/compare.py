@@ -2,7 +2,7 @@ import os
 import csv
 
 file_map = {
-    "sulibao": "slb",
+    "test-su": "test-su",
 }
 
 source_dir = "source"
