@@ -1,41 +1,45 @@
 # compare_db
 
-This script can be used to compare the number of tables of the old and new databases after the migration of the MySQL family of databases.
+适用于MySQL兼容系列类型数据库迁移后，用来比较新旧数据库表的数量，以确认数据迁移是否完整。
 
-# How to Use
+# 如何使用
 
-- source.sh
+## Python
+
+- source.py
 
 ```sh
+pip install mysql-connector-python
 
-#!/bin/bash
+config = {
+    'host': '192.168.2.193',   #原数据库host
+    'port': 20307,     #原数据库端口
+    'user': 'root',    #原数据库登录用户
+    'password': 'SLBmysql2025',   #原数据库登录密码
+    'database': '',    #原数据库列表，初始为空，后面会遍历数据库列表的值
+    'raise_on_warnings': True
+}
 
-MYSQL_HOST="xx.xx.xx.xx"   #source database host
-MYSQL_PORT="20307"   #Source database host port
-MYSQL_USER="root"    #Source database user
-MYSQL_PASS="xxx"     #The password of the source database login user
-DIR="source"    #The directory where the source data volume is obtained is stored
+# 数据库列表
+databases = ['sulibao']
 
-MYSQL_DBS="test-su"    #The database of the comparison to be fetched, separated by "," when there are multiple databases
-......
-
-bash source.sh
+python source.py
 ```
 
-- target.sh
+- target.py
 
 ```sh
-#!/bin/bash
-MYSQL_HOST="xx.xx.xx.xx"    #Target database host address
-MYSQL_PORT="20308"      #Target database host port
-MYSQL_USER="root"       #Target database user
-MYSQL_PASS="xxx"       #The password of the target database login user
-DIR="target"           #The directory where the target data volume is fetched   
+config = {
+    'host': '192.168.2.193',    #目标数据库host
+    'port': 20308,       #目标数据库端口
+    'user': 'root',    #目标数据库登录用户
+    'password': 'SLBmysql2025',   #目标数据库登录密码
+    'database': '',           #目标数据库列表，初始为空，后面会遍历数据库列表的值
+    'raise_on_warnings': True
+}
 
-MYSQL_DBS="test-su"      #The database of the comparison to be fetched, separated by "," when there are multiple databases
-......
-
-bash target.sh
+# 数据库列表
+databases = ['slb']
 ```
 
 - compare.py
@@ -43,19 +47,35 @@ bash target.sh
 ```python
 import os
 import csv
-file_map = {
-    'test-su': 'test-su',            #'source': 'target'
-    'xxx':'xxx'
-}
-#Fill in the name of the database to be compared, separated by "," when there are multiple sets of comparisons
 
-source_dir = 'source'
-target_dir = 'target'
-output_dir = 'compare'
+file_map = {
+    "sulibao": "slb",    #"原数据库": "目标数据库"，如果有多个库需要对比，可以换行继续写 
+}
+
+source_dir = "source"    #存放原数据的目录
+target_dir = "target"    #存放目标数据的目录
+output_dir = "compare"   #存放对比结果的目录
 
 ......
 
 python compare.py
 ```
 
-After running, check out the "*.csv" file in the compare directory to see the difference in the number of tables
+运行后，查看compare目录中的“*.csv”文件，以查看表数量的差异
+
+## Shell+Python
+
+提供了shell+Python的方式，修改配置信息，以相同的顺序执行和查看结果
+
+```
+cd /shell+python
+bash source.sh
+bash target.sh
+python compare.py
+
+cat compare/*.csv
+
+
+
+```
+
