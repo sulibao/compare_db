@@ -40,6 +40,8 @@ config = {
 
 # 数据库列表
 databases = ['slb']
+
+python target.py
 ```
 
 - compare.py
