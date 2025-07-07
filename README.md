@@ -10,7 +10,7 @@
 - 所有配置（数据库连接、输出目录、数据库映射）均可通过命令行参数进行配置。
 
 ## 建议条件
-- Python 3.12
+- Python 3.12及以上
 - MySQL Connector/Python:8.0.28 库
 
 ## 安装
@@ -60,7 +60,7 @@ python main.py --source_host 192.168.2.193 --source_port 20307 --source_user roo
 
 1. 安装 PyInstaller：
    ```bash
-   pip install pyinstaller
+   pip3 install pyinstaller
    ```
 2. 构建可执行文件：
    ```bash
@@ -69,7 +69,56 @@ python main.py --source_host 192.168.2.193 --source_port 20307 --source_user roo
    可执行文件将在 `dist/` 目录中找到。
 
 ### 运行二进制文件
+
+1. Linux(./dist/main)，执行效果如下。
 ```bash
-./dist/main [OPTIONS]，[OPTIONS和上述参数一致]
+(myenv) root@sulibao-None:~/compare_db/dist# ./main --source_host 192.168.2.193 --source_port 20307 --source_user root --source_password SLBmysql2025 --source_databases sulibao --target_host 192.168.2.193 --target_port 20308 --target_user root --target_password SLBmysql2025 --target_databases slb --file_map sulibao:slb --output_dir compare_results
+Fetching source database data...
+source_data directory created successfully
+Query results for database sulibao have been saved to: source_data/sulibao.txt
+Fetching target database data...
+target_data directory created successfully
+Query results for database slb have been saved to: target_data/slb.txt
+Comparing data...
+Comparison results saved to compare_results/comparison_summary.csv
+Comparison process completed.
+(myenv) root@sulibao-None:~/compare_db/dist# ll
+总计 8028
+drwxr-xr-x 5 root root    4096  7月  7 15:17 ./
+drwxr-xr-x 8 root root    4096  7月  7 15:16 ../
+drwxr-xr-x 2 root root    4096  7月  7 15:17 compare_results/
+-rwxr-xr-x 1 root root 8198280  7月  7 15:16 main*
+drwxr-xr-x 2 root root    4096  7月  7 15:17 source_data/
+drwxr-xr-x 2 root root    4096  7月  7 15:17 target_data/
+(myenv) root@sulibao-None:~/compare_db/dist# cat compare_results/comparison_summary.csv 
+table name,source rows,target rows
+employees,659,660
+students,660,659
 ```
-（在 Windows 上，则是 `dist\main.exe [OPTIONS]`)
+
+2. Windows(dist\main.exe)，执行效果如下。
+
+```bash
+E:\>main.exe --source_host 192.168.2.193 --source_port 20307 --source_user root --source_password SLBmysql2025 --source_databases sulibao --target_host 192.168.2.193 --target_port 20308 --target_user root --target_password SLBmysql2025 --target_databases slb --file_map sulibao:slb --output_dir compare_results
+Fetching source database data...
+source_data directory created successfully
+Query results for database sulibao have been saved to: source_data\sulibao.txt
+Fetching target database data...
+target_data directory created successfully
+Query results for database slb have been saved to: target_data\slb.txt
+Comparing data...
+Comparison results saved to compare_results\comparison_summary.csv
+Comparison process completed.
+
+E:\>notepad.exe compare_results/comparison_summary.csv
+table name,source rows,target rows
+employees,659,660
+students,660,659
+```
+
+3. 示例二进制文件
+
+```bash
+./dist/windows/main.exe--基于 Windows11专业版 amd_X64 构建
+./dist/Linux/main---基于 Ubuntu24.04.2 LTS X86_64 构建
+```
