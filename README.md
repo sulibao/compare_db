@@ -69,7 +69,7 @@ python main.py --source_host 192.168.2.193 --source_port 20307 --source_user roo
    ```
    可执行文件将在 `dist/` 目录中找到。
 
-### 运行二进制文件
+## 运行二进制文件
 
 1. Linux(./dist/main)，执行效果如下。
 ```bash
