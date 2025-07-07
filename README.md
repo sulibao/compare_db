@@ -1,6 +1,6 @@
 # 数据库对比工具
 
-此工具用于对比两个数据库（源数据库和目标数据库）中表的行数，并报告任何差异。可以通过命令行参数进行配置。
+此工具用于对比两个数据库（源数据库和目标数据库）中表的行数，并报告任何差异。通过命令行参数进行配置。
 
 ## 功能
 - 从源数据库获取表行数。
@@ -9,8 +9,9 @@
 - 将对比结果保存到 CSV 文件。
 - 所有配置（数据库连接、输出目录、数据库映射）均可通过命令行参数进行配置。
 
-## 建议条件
+## 建议环境
 - Python 3.12及以上
+- Pip/Pip3
 - MySQL Connector/Python:8.0.28 库
 
 ## 安装
@@ -28,7 +29,7 @@
 运行 `main.py` 脚本并传入所需的命令行参数。如果未提供任何参数，将使用默认值。
 
 ```bash
-python main.py [OPTIONS]
+python3 main.py [OPTIONS]
 ```
 
 ### 命令行选项
@@ -55,7 +56,7 @@ python main.py [OPTIONS]
 python main.py --source_host 192.168.2.193 --source_port 20307 --source_user root --source_password SLBmysql2025 --source_databases sulibao --target_host 192.168.2.193 --target_port 20308 --target_user root --target_password SLBmysql2025 --target_databases slb --file_map sulibao:slb --output_dir compare_results
 ```
 
-## 可以进行构建二进制可执行文件（可选）
+## 可以进行构建二进制可执行文件（可选操作）
 要创建单个可执行文件，需要使用 `PyInstaller`。
 
 1. 安装 PyInstaller：
