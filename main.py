@@ -1,6 +1,6 @@
 import os
-import mysql.connector
-from mysql.connector import Error
+import pg8000
+import pg8000.exceptions
 import argparse
 import csv
 
@@ -21,10 +21,10 @@ def fetch_table_row_counts(config, databases, output_directory):
         connection = None
         cursor = None
         try:
-            connection = mysql.connector.connect(**current_config)
+            connection = pg8000.connect(**current_config)
             cursor = connection.cursor()
 
-            cursor.execute("SELECT table_name FROM information_schema.tables WHERE table_schema=%s ORDER BY table_name", (db_name,))
+            cursor.execute("SELECT table_name FROM information_schema.tables WHERE table_schema='public' ORDER BY table_name")
             tables = [row[0] for row in cursor.fetchall()]
 
             with open(table_file, 'w') as f:
@@ -35,7 +35,7 @@ def fetch_table_row_counts(config, databases, output_directory):
                 pass
 
             for table in tables:
-                query = "SELECT %s, COUNT(1) FROM `{}`".format(table)
+                query = "SELECT %s, COUNT(1) FROM \"{}\"".format(table)
                 cursor.execute(query, (table,))
                 result = cursor.fetchone()
 
@@ -45,12 +45,12 @@ def fetch_table_row_counts(config, databases, output_directory):
 
             print("Query results for database {} have been saved to: {}".format(db_name, output_file))
 
-        except Error as e:
+        except (pg8000.exceptions.InterfaceError, pg8000.exceptions.ProgrammingError) as e:
             print("Error accessing database {}: {}".format(db_name, e))
         finally:
             if cursor:
                 cursor.close()
-            if connection and connection.is_connected():
+            if connection:
                 connection.close()
 
 def read_file(file_path):
@@ -116,14 +116,14 @@ def write_csv(results, output_file):
 def main():
     parser = argparse.ArgumentParser(description="Compare database table row counts.")
     parser.add_argument('--source_host', type=str, default='192.168.2.193', help='Source database host.')
-    parser.add_argument('--source_port', type=int, default=20307, help='Source database port.')
-    parser.add_argument('--source_user', type=str, default='root', help='Source database user.')
-    parser.add_argument('--source_password', type=str, default='SLBmysql2025', help='Source database password.')
+    parser.add_argument('--source_port', type=int, default=5432, help='Source database port.')
+    parser.add_argument('--source_user', type=str, default='postgres', help='Source database user.')
+    parser.add_argument('--source_password', type=str, default='postgres', help='Source database password.')
     parser.add_argument('--source_databases', type=str, default='sulibao', help='Comma-separated list of source databases.')
     parser.add_argument('--target_host', type=str, default='192.168.2.193', help='Target database host.')
-    parser.add_argument('--target_port', type=int, default=20308, help='Target database port.')
-    parser.add_argument('--target_user', type=str, default='root', help='Target database user.')
-    parser.add_argument('--target_password', type=str, default='SLBmysql2025', help='Target database password.')
+    parser.add_argument('--target_port', type=int, default=5432, help='Target database port.')
+    parser.add_argument('--target_user', type=str, default='postgres', help='Target database user.')
+    parser.add_argument('--target_password', type=str, default='postgres', help='Target database password.')
     parser.add_argument('--target_databases', type=str, default='slb', help='Comma-separated list of target databases.')
     parser.add_argument('--output_dir', type=str, default='compare_results', help='Directory to save comparison results.')
     parser.add_argument('--source_output_dir', type=str, default='source_data', help='Directory to save source database data.')
@@ -137,14 +137,14 @@ def main():
         'port': args.source_port,
         'user': args.source_user,
         'password': args.source_password,
-        'raise_on_warnings': True
+        'database': args.source_databases.split(',')[0]
     }
     target_config = {
         'host': args.target_host,
         'port': args.target_port,
         'user': args.target_user,
         'password': args.target_password,
-        'raise_on_warnings': True
+        'database': args.target_databases.split(',')[0]
     }
 
     source_databases = args.source_databases.split(',')
