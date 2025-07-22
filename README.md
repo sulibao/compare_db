@@ -12,7 +12,7 @@
 ## 建议环境
 - Python 3.7.0及以上
 - Pip/Pip3
-- MySQL Connector/Python:8.0.28 库
+- MySQL Connector/Python 8.0.28 库
 
 ## 安装
 1. 克隆此仓库并赋予执行权限：
