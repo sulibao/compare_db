@@ -75,48 +75,39 @@ python main.py --source_host 192.168.2.193 --source_port 25432 --source_user pos
 
 1. Linux(./dist/main)，执行效果如下。
 ```bash
-(myenv) root@sulibao-None:~/compare_db/dist# ./main --source_host 192.168.2.193 --source_port 20307 --source_user root --source_password SLBmysql2025 --source_databases sulibao --target_host 192.168.2.193 --target_port 20308 --target_user root --target_password SLBmysql2025 --target_databases slb --file_map sulibao:slb --output_dir compare_results
+(myenv) root@sulibao-None:~/compare_db/dist# ./main --source_host 192.168.2.193 --source_port 25432 --source_user postgres --source_password SLBpg2025 --source_databases slb --target_host 192.168.2.193 --target_port 25433 --target_user postgres --target_password SLBpg2025 --target_databases sulibao --file_map slb:sulibao --output_dir compare_results
 Fetching source database data...
 source_data directory created successfully
-Query results for database sulibao have been saved to: source_data/sulibao.txt
+Query results for database slb have been saved to: source_data/slb.txt
 Fetching target database data...
 target_data directory created successfully
-Query results for database slb have been saved to: target_data/slb.txt
+Query results for database sulibao have been saved to: target_data/sulibao.txt
 Comparing data...
 Comparison results saved to compare_results/comparison_summary.csv
 Comparison process completed.
-(myenv) root@sulibao-None:~/compare_db/dist# ll
-总计 8028
-drwxr-xr-x 5 root root    4096  7月  7 15:17 ./
-drwxr-xr-x 8 root root    4096  7月  7 15:16 ../
-drwxr-xr-x 2 root root    4096  7月  7 15:17 compare_results/
--rwxr-xr-x 1 root root 8198280  7月  7 15:16 main*
-drwxr-xr-x 2 root root    4096  7月  7 15:17 source_data/
-drwxr-xr-x 2 root root    4096  7月  7 15:17 target_data/
+
 (myenv) root@sulibao-None:~/compare_db/dist# cat compare_results/comparison_summary.csv 
-table name,source rows,target rows
-employees,659,660
-students,660,659
+table name,source rows,target rows     #此时只有这个插件表有一点数量差异，其余无数量差异的表不会显示
+pg_stat_statements,106,96
 ```
 
-2. Windows(./dist/main.exe)，执行效果如下。
+2. Windows(.\dist\main.exe)，执行效果如下。
 
 ```bash
-E:\>main.exe --source_host 192.168.2.193 --source_port 20307 --source_user root --source_password SLBmysql2025 --source_databases sulibao --target_host 192.168.2.193 --target_port 20308 --target_user root --target_password SLBmysql2025 --target_databases slb --file_map sulibao:slb --output_dir compare_results
+E:\> .\dist\main.exe --source_host 192.168.2.193 --source_port 25432 --source_user postgres --source_password SLBpg2025 --source_databases slb --target_host 192.168.2.193 --target_port 25433 --target_user postgres --target_password SLBpg2025 --target_databases sulibao --file_map slb:sulibao --output_dir compare_results
 Fetching source database data...
 source_data directory created successfully
-Query results for database sulibao have been saved to: source_data\sulibao.txt
+Query results for database slb have been saved to: source_data\slb.txt
 Fetching target database data...
 target_data directory created successfully
-Query results for database slb have been saved to: target_data\slb.txt
+Query results for database sulibao have been saved to: target_data\sulibao.txt
 Comparing data...
 Comparison results saved to compare_results\comparison_summary.csv
 Comparison process completed.
 
-E:\>notepad.exe compare_results/comparison_summary.csv
-table name,source rows,target rows
-employees,659,660
-students,660,659
+E:\> notepad.exe compare_results/comparison_summary.csv
+table name,source rows,target rows          #此时只有这个插件表有一点数量差异，其余无数量差异的表不会显示
+pg_stat_statements,106,96
 ```
 
 3. 示例二进制文件
