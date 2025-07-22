@@ -15,9 +15,10 @@
 - MySQL Connector/Python:8.0.28 库
 
 ## 安装
-1. 克隆此仓库：
+1. 克隆此仓库并赋予执行权限：
    ```bash
    git clone <repository_url>
+   chmod +x -R compare_db
    cd compare_db
    ```
 2. 安装所需的 Python 包：
