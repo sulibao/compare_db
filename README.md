@@ -1,6 +1,8 @@
 ## shell+python
 
-提供了shell+Python的方式，修改配置信息
+提供了shell+Python的方式，建议python版本>=3.6，主要针对MySQL系列数据库
+
+修改配置信息
 
 - source.sh
 ```sh
