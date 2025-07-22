@@ -34,6 +34,7 @@ python3 main.py [OPTIONS]
 ```
 
 ### 命令行选项
+`可以通过python3 main.py --help/-h进行唤起帮助`
 - `--source_host` (str): 源数据库主机。默认值: `192.168.2.193`
 - `--source_port` (int): 源数据库端口。默认值: `20307`
 - `--source_user` (str): 源数据库用户。默认值: `root`
