@@ -99,7 +99,7 @@ employees,659,660
 students,660,659
 ```
 
-2. Windows(dist\main.exe)，执行效果如下。
+2. Windows(./dist/main.exe)，执行效果如下。
 
 ```bash
 E:\>main.exe --source_host 192.168.2.193 --source_port 20307 --source_user root --source_password SLBmysql2025 --source_databases sulibao --target_host 192.168.2.193 --target_port 20308 --target_user root --target_password SLBmysql2025 --target_databases slb --file_map sulibao:slb --output_dir compare_results
