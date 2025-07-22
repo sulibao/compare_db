@@ -1,4 +1,4 @@
-## python_old，建议python版本>=3.6
+## python_old，建议python版本>=3.6，主要针对MySQL系列数据库
 
 - source.py
 
