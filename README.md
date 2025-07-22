@@ -25,6 +25,13 @@
    ```bash
    pip3 install -r requirements.txt
    ```
+   注意：在Ubuntu比较新的系统上执行以上Python/pip命令时可能会遇到"PEP 668 Python管理限制"，这个情况下建议构建一个虚拟环境进行操作，如下。
+   ```bash
+   python3 -m venv myenv   # 创建一个虚拟环境
+   source /myenv/bin/activate   # 激活虚拟环境
+   pip3 install -r requirements.txt   # 在虚拟环境中执行
+   deactivate   # 执行完成后退出虚拟环境
+   ```
 
 ## 使用方法
 运行 `main.py` 脚本并传入所需的命令行参数。如果未提供任何参数，将使用默认值。
@@ -71,7 +78,7 @@ python main.py --source_host 192.168.2.193 --source_port 20307 --source_user roo
    ```
    可执行文件将在 `./dist/` 目录中找到。
 
-## 运行二进制文件
+## 运行二进制文件（可选操作）
 
 1. Linux(./dist/main)，执行效果如下。
 ```bash
