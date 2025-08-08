@@ -1,86 +1,94 @@
-# 数据库对比工具
+# Database comparison tool
 
-此工具用于对比两个数据库（源数据库和目标数据库，此分支中针对MySQL系统数据库）中表的行数，并报告任何差异。通过命令行参数进行配置。
+This tool is used to compare the number of rows in the tables of two databases (the source database and the target database, which are the MySQL system databases in this branch), and report any differences. It is configured through command-line parameters.
 
-## 功能
-- 从源数据库获取表行数。
-- 从目标数据库获取表行数。
-- 对比获取到的数据并识别差异。
-- 将对比结果保存到 CSV 文件。
-- 所有配置（数据库连接、输出目录、数据库映射）均可通过命令行参数进行配置。
+## Function
 
-## 建议环境
-- Python 3.7.0及以上
+- Retrieve the number of rows from the source database.
+- Retrieve the number of rows from the target database.
+- Compare the obtained data and identify the differences.
+- Save the comparison results to a CSV file.
+- All configurations (database connection, output directory, database mapping) can be configured through command-line parameters.
+
+## Suggested operating environment
+
+- Python 3.7.0 and above
 - Pip/Pip3
-- MySQL Connector/Python 8.0.28 库
+- MySQL Connector/Python 8.0.28 lib
 
-## 安装
-1. 克隆此仓库并赋予执行权限：
+## Install
+
+1. Clone this repository and grant execution permissions:
    ```bash
    git clone <repository_url>
    chmod +x -R compare_db
    cd compare_db
    ```
-2. 安装所需的 Python 包：
+2. Installing the required Python packages:
+
    ```bash
    pip3 install -r requirements.txt
    ```
-   注意：在Ubuntu比较新的系统上执行以上Python/pip命令时可能会遇到"PEP 668 Python管理限制"，这个情况下建议构建一个虚拟环境进行操作，如下。
+   Note: When executing the above Python/pip commands on relatively new versions of Ubuntu, you may encounter the "PEP 668 Python Management Limitation". In such cases, it is recommended to create a virtual environment for operation as follows.
+   
    ```bash
-   python3 -m venv myenv   # 创建一个虚拟环境
-   source /myenv/bin/activate   # 激活虚拟环境
-   pip3 install -r requirements.txt   # 在虚拟环境中执行
-   deactivate   # 执行完成后退出虚拟环境
+   python3 -m venv myenv
+   source /myenv/bin/activate
+   pip3 install -r requirements.txt
+   deactivate
    ```
 
-## 使用方法
-运行 `main.py` 脚本并传入所需的命令行参数。如果未提供任何参数，将使用默认值。
+## Method of application
+
+Run the `main.py` script and pass in the required command-line parameters. If no parameters are provided, the default values will be used.
 
 ```bash
 python3 main.py [OPTIONS]
 ```
 
-### 命令行选项
-`可以通过python3 main.py --help/-h进行唤起帮助`
-- `--source_host` (str): 源数据库主机。默认值: `192.168.2.193`
-- `--source_port` (int): 源数据库端口。默认值: `20307`
-- `--source_user` (str): 源数据库用户。默认值: `root`
-- `--source_password` (str): 源数据库密码。默认值: `SLBmysql2025`
-- `--source_databases` (str): 要对比的源数据库列表，以逗号分隔。默认值: `sulibao`
+### Command Options
+`You can invoke the help information by running "python3 main.py --help/-h"`
+- `--source_host` (str): Source database host.default: `192.168.2.193`
+- `--source_port` (int): Source database port.default: `20307`
+- `--source_user` (str): Source database user.default: `root`
+- `--source_password` (str): Source database password.default: `SLBmysql2025`
+- `--source_databases` (str): The list of source databases to be compared, separated by commas in English format.default: `sulibao`
 
-- `--target_host` (str): 目标数据库主机。默认值: `192.168.2.193`
-- `--target_port` (int): 目标数据库端口。默认值: `20308`
-- `--target_user` (str): 目标数据库用户。默认值: `root`
-- `--target_password` (str): 目标数据库密码。默认值: `SLBmysql2025`
-- `--target_databases` (str): 要对比的目标数据库列表，以逗号分隔。默认值: `slb`
+- `--target_host` (str): Target database host.default: `192.168.2.193`
+- `--target_port` (int): Target database port.default: `20308`
+- `--target_user` (str): Target database user.default: `root`
+- `--target_password` (str): Target database password.default: `SLBmysql2025`
+- `--target_databases` (str): The list of target databases to be compared, separated by commas in English format.default: `slb`
 
-- `--output_dir` (str): 保存最终对比 CSV 报告的目录。默认值: `compare_results`
-- `--source_output_dir` (str): 保存中间源数据库数据的目录。默认值: `source_data`
-- `--target_output_dir` (str): 保存中间目标数据库数据的目录。默认值: `target_data`
+- `--output_dir` (str): Directory for saving the final comparison CSV report.default: `compare_results`
+- `--source_output_dir` (str): The directory for storing the data of the intermediate source database.default: `source_data`
+- `--target_output_dir` (str): The directory for storing the data of the intermediate target database.default: `target_data`
 
-- `--file_map` (str): 用于映射源数据库到目标数据库的逗号分隔键值对。格式: `source_db1:target_db1,source_db2:target_db2`。默认值: `sulibao:slb`
+- `--file_map` (str): Comma-separated key-value pairs used to map the source database to the target database.format: `source_db1:target_db1,source_db2:target_db2`。default: `sulibao:slb`
 
-### 示例用法
+### Example 
+
 ```bash
 python main.py --source_host 192.168.2.193 --source_port 20307 --source_user root --source_password SLBmysql2025 --source_databases sulibao --target_host 192.168.2.193 --target_port 20308 --target_user root --target_password SLBmysql2025 --target_databases slb --file_map sulibao:slb --output_dir compare_results
 ```
 
-## 可以进行构建二进制可执行文件（可选操作）
-要创建单个可执行文件，需要使用 `PyInstaller`。
+## Binary executable files can be constructed (optional operation)
 
-1. 安装 PyInstaller：
+To create a single executable file, you need to use `PyInstaller`
+
+1. Install PyInstaller：
    ```bash
    pip3 install pyinstaller
    ```
-2. 构建可执行文件：
+2. Build executable file:
    ```bash
    pyinstaller --onefile main.py
    ```
-   可执行文件将在 `./dist/` 目录中找到。
+   The executable file can be found in the `./dist/` directory.
 
-## 运行二进制文件（可选操作）
+## Run the binaary file (optional operation)
 
-1. Linux(./dist/main)，执行效果如下。
+1. Linux(./dist/main)，The execution results are as follows:
 ```bash
 (myenv) root@sulibao-None:~/compare_db/dist# ./main --source_host 192.168.2.193 --source_port 20307 --source_user root --source_password SLBmysql2025 --source_databases sulibao --target_host 192.168.2.193 --target_port 20308 --target_user root --target_password SLBmysql2025 --target_databases slb --file_map sulibao:slb --output_dir compare_results
 Fetching source database data...
@@ -93,7 +101,7 @@ Comparing data...
 Comparison results saved to compare_results/comparison_summary.csv
 Comparison process completed.
 (myenv) root@sulibao-None:~/compare_db/dist# ll
-总计 8028
+Total 8028
 drwxr-xr-x 5 root root    4096  7月  7 15:17 ./
 drwxr-xr-x 8 root root    4096  7月  7 15:16 ../
 drwxr-xr-x 2 root root    4096  7月  7 15:17 compare_results/
@@ -106,7 +114,7 @@ employees,659,660
 students,660,659
 ```
 
-2. Windows(./dist/main.exe)，执行效果如下。
+2. Windows(./dist/main.exe)，The execution results are as follows:
 
 ```bash
 E:\>main.exe --source_host 192.168.2.193 --source_port 20307 --source_user root --source_password SLBmysql2025 --source_databases sulibao --target_host 192.168.2.193 --target_port 20308 --target_user root --target_password SLBmysql2025 --target_databases slb --file_map sulibao:slb --output_dir compare_results
@@ -126,9 +134,9 @@ employees,659,660
 students,660,659
 ```
 
-3. 示例二进制文件
+3. Example binary file:
 
 ```bash
-./dist/windows/main.exe--基于 Windows11专业版 amd_X64 构建
-./dist/Linux/main---基于 Ubuntu24.04.2 LTS X86_64 构建
+./dist/windows/main.exe--Built based on Windows 11 Professional Edition (amd_X64)
+./dist/Linux/main---Built based on Ubuntu 24.04.2 LTS (x86_64)
 ```
