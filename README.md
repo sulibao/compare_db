@@ -1,4 +1,4 @@
-# Database comparison tool
+# Database comparison tool for MySQL
 
 This tool is used to compare the number of rows in the tables of two databases (the source database and the target database, which are the MySQL system databases in this branch), and report any differences. It is configured through command-line parameters.
 
