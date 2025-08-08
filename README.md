@@ -1,4 +1,4 @@
-# Database comparison tool
+# Database comparison tool for PostgreSQL
 
 This tool is used to compare the number of rows in the tables of two databases (the source database and the target database, in this branch for PostgreSQL database), and report any differences. It is configured through command-line parameters.
 
@@ -10,11 +10,13 @@ This tool is used to compare the number of rows in the tables of two databases (
 - All configurations (database connection, output directory, database mapping) can be configured through command-line parameters. Configure through command-line parameters.
 
 ## Suggested operating environment
+
 - Python 3.7.0 and above
 - Pip/Pip3
 - pg8000 1.29.4 lib
 
 ## Install
+
 1. Clone this repository and grant execution permissions:
    ```bash
    git clone <repository_url> -b postgresql_python

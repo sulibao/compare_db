@@ -1,8 +1,9 @@
-# 数据库对比工具
+# PostgreSQL数据库对比工具
 
 此工具用于对比两个数据库（源数据库和目标数据库，此分支中针对PostgreSQL数据库）中表的行数，并报告任何差异。通过命令行参数进行配置。
 
 ## 功能
+
 - 从源数据库获取表行数。
 - 从目标数据库获取表行数。
 - 对比获取到的数据并识别差异。
@@ -10,11 +11,13 @@
 - 所有配置（数据库连接、输出目录、数据库映射）均可通过命令行参数进行配置。
 
 ## 建议环境
+
 - Python 3.7.0及以上
 - Pip/Pip3
 - pg8000 1.29.4 库
 
 ## 安装
+
 1. 克隆此仓库并赋予执行权限：
    ```bash
    git clone <repository_url> -b postgresql_python
@@ -34,6 +37,7 @@
    ```
 
 ## 使用方法
+
 运行 `main.py` 脚本并传入所需的命令行参数。如果未提供任何参数，将使用默认值。
 
 ```bash
@@ -41,6 +45,7 @@ python3 main.py [OPTIONS]
 ```
 
 ### 命令行选项
+
 `可以通过python3 main.py --help/-h进行唤起帮助`
 - `--source_host` (str): 源数据库主机。默认值: `192.168.2.193`
 - `--source_port` (int): 源数据库端口。默认值: `25432`
@@ -61,11 +66,13 @@ python3 main.py [OPTIONS]
 - `--file_map` (str): 用于映射源数据库到目标数据库的逗号分隔键值对。格式: `source_db1:target_db1,source_db2:target_db2`。默认值: `slb:sulibao`
 
 ### 示例用法
+
 ```bash
 python main.py --source_host 192.168.2.193 --source_port 25432 --source_user postgres --source_password SLBpg2025 --source_databases slb --target_host 192.168.2.193 --target_port 25433 --target_user postgres --target_password SLBmysql2025 --target_databases sulibao --file_map slb:sulibao --output_dir compare_results
 ```
 
 ## 可以进行构建二进制可执行文件（可选操作）
+
 要创建单个可执行文件，需要使用 `PyInstaller`。
 
 1. 安装 PyInstaller：
